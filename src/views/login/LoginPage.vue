@@ -2,7 +2,6 @@
 import { userLoginService, userRegisterService } from '@/api/user'
 import { useUserStore } from '@/stores'
 import { User, Lock } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
 import { ref, watch } from 'vue'
 
 import { useRouter } from 'vue-router'

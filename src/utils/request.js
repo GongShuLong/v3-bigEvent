@@ -1,7 +1,6 @@
 import { useUserStore } from '@/stores/index'
 import axios from 'axios'
 import router from '@/router'
-import { ElMessage } from 'element-plus'
 
 const baseURL = 'http://big-event-vue-api-t.itheima.net'
 
