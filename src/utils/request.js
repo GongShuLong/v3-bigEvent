@@ -6,7 +6,7 @@ const baseURL = 'http://big-event-vue-api-t.itheima.net'
 
 const instance = axios.create({
   baseURL,
-  timeout: 100000
+  timeout: 10000
 })
 
 instance.interceptors.request.use(

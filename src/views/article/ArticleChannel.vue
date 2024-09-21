@@ -1,5 +1,5 @@
 <script setup>
-import { artGetChannelsService } from '@/api/article'
+import { artDelChannelService, artGetChannelsService } from '@/api/article'
 import { ref } from 'vue'
 
 import { Delete, Edit } from '@element-plus/icons-vue'
@@ -22,11 +22,23 @@ getChannelsList()
 const onEditChannel = (row) => {
   dialog.value.open(row)
 }
-const onDelChannel = () => {
+const onDelChannel = async (row) => {
   // dialog.value.open()
+  await ElMessageBox.confirm('你确定要删除该分类吗', '温馨提示', {
+    type: 'warning',
+    confirmButtonText: '确认',
+    cancelButtonText: '取消'
+  })
+  await artDelChannelService(row.id)
+  ElMessage.success('删除成功')
+  getChannelsList()
 }
 const onAddChannel = () => {
   dialog.value.open({})
+}
+
+const onSuccess = () => {
+  getChannelsList()
 }
 </script>
 
@@ -50,7 +62,7 @@ const onAddChannel = () => {
         <el-empty description="空空如也"></el-empty>
       </template>
     </el-table>
-    <channel-edit ref="dialog"></channel-edit>
+    <channel-edit ref="dialog" @success="onSuccess"></channel-edit>
   </page-container>
 </template>
 <style lang="scss" scoped></style>
