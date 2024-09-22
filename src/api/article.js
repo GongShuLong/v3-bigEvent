@@ -19,3 +19,23 @@ export const artDelChannelService = (id) =>
 
 // 获取文章列表
 export const artGetListService = (params) => request.get('/my/article/list', { params })
+
+// 获取文章详情
+export const artGetDetailService = (id) =>
+  request.get('/my/article/info', {
+    params: {
+      id
+    }
+  })
+// 新增文章
+export const artAddArticleService = (data) => request.post('/my/article/add', data)
+
+// 更新文章
+export const artUpdateArticleService = (data) => request.put('/my/article/info', data)
+// 删除文章
+export const artDelArticleService = (id) =>
+  request.delete('/my/article/info', {
+    params: {
+      id
+    }
+  })

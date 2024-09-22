@@ -8,3 +8,6 @@ export const userLoginService = ({ username, password }) => request.post('/api/l
 
 // 获取用户基本信息
 export const userInfoServiec = () => request.get('/my/userinfo')
+
+// 修改用户信息
+export const editUserInfoService = ({ id, nickname, email }) => request.put('/my/userinfo', { id, nickname, email })
