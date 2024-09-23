@@ -11,3 +11,9 @@ export const userInfoServiec = () => request.get('/my/userinfo')
 
 // 修改用户信息
 export const editUserInfoService = ({ id, nickname, email }) => request.put('/my/userinfo', { id, nickname, email })
+// 修改用户头像
+export const editUserAvatarService = ({ avatar }) => request.patch('/my/update/avatar', { avatar })
+
+// 重置密码
+export const resetPasswordService = ({ old_pwd, new_pwd, re_pwd }) =>
+  request.patch('/my/updatepwd', { old_pwd, new_pwd, re_pwd })

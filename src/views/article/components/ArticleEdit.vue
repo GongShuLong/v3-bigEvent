@@ -8,6 +8,8 @@ import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { artAddArticleService, artGetDetailService, artUpdateArticleService } from '@/api/article'
 
+import axios from 'axios'
+
 const visibilityBinding = ref(false)
 // const defaultData = ref({
 //   title: '',
@@ -16,6 +18,27 @@ const visibilityBinding = ref(false)
 //   cover_img: '', //文章封面，file对象
 //   state: ''
 // })
+
+// 将网络图片地址转换为File对象
+async function imageUrlToFile(url, fileName) {
+  try {
+    // 第一步：使用axios获取网络图片数据
+    const response = await axios.get(url, { responseType: 'arraybuffer' })
+    const imageData = response.data
+
+    // 第二步：将图片数据转换为Blob对象
+    const blob = new Blob([imageData], { type: response.headers['content-type'] })
+
+    // 第三步：创建一个新的File对象
+    const file = new File([blob], fileName, { type: blob.type })
+
+    return file
+  } catch (error) {
+    console.error('将图片转换为File对象时发生错误:', error)
+    throw error
+  }
+}
+
 const formRef = ref()
 const formModel = ref({
   id: '',
@@ -63,7 +86,7 @@ const getArticleDetail = async (id) => {
 
 const editorRef = ref()
 // 组件对外暴漏一个open方法，基于open传来的参数，区分添加还是编辑
-const open = (row) => {
+const open = async (row) => {
   visibilityBinding.value = true
   // editorRef.value.setHTML('')
   // 使用 nextTick 确保 DOM 已渲染
@@ -74,7 +97,15 @@ const open = (row) => {
   // id存在，回显，不存在，添加
   if (row.id) {
     // console.log('回显')
-    getArticleDetail(row.id)
+
+    await getArticleDetail(row.id)
+    const fullImgUrl = getFullImageUrl(formModel.value.cover_img)
+    // 提交给后台，需要的是 file 格式的，将网络图片，转成 file 格式
+    // 网络图片转成 file 对象, 需要转换一下
+    imgUrl.value = fullImgUrl
+    // console.log(imgUrl.value)
+
+    formModel.value.cover_img = await imageUrlToFile(imgUrl.value, formModel.value.cover_img)
     // console.log(formModel.value)
     // formModel.value.id = '1001'
   } else {
@@ -117,9 +148,9 @@ const onAddArticle = async (state) => {
   // 发送提交请求
   if (formModel.value.id) {
     // console.log('编辑')
-    console.log(fd)
+    // console.log(fd)
     // fd.cover_img = formModel.value.cover_img
-    console.log(formModel.value.cover_img)
+    // console.log(formModel.value.cover_img)
 
     await artUpdateArticleService(fd)
     ElMessage.success('编辑成功')

@@ -42,21 +42,35 @@ const submitForm = async () => {
 </script>
 
 <template>
-  <el-form :model="form" :rules="rules" ref="formRef" label-width="120px">
-    <el-form-item label="登录名称">
-      <el-input v-model="form.username" disabled></el-input>
-    </el-form-item>
+  <div class="container">
+    <el-form :model="form" :rules="rules" ref="formRef" label-width="120px">
+      <el-form-item label="登录名称">
+        <el-input v-model="form.username" disabled></el-input>
+      </el-form-item>
 
-    <el-form-item label="用户昵称" prop="nickname">
-      <el-input v-model="form.nickname"></el-input>
-    </el-form-item>
+      <el-form-item label="用户昵称" prop="nickname">
+        <el-input v-model="form.nickname"></el-input>
+      </el-form-item>
 
-    <el-form-item label="用户邮箱" prop="email">
-      <el-input v-model="form.email"></el-input>
-    </el-form-item>
+      <el-form-item label="用户邮箱" prop="email">
+        <el-input v-model="form.email"></el-input>
+      </el-form-item>
 
-    <el-form-item>
-      <el-button type="primary" @click="submitForm">提交修改</el-button>
-    </el-form-item>
-  </el-form>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm">提交修改</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
+<style lang="scss" scoped>
+.container {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center; // 使组件垂直居中
+}
+
+.el-form {
+  width: 50%; // 设置表单宽度为 50%
+}
+</style>
